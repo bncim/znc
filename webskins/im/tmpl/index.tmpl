@@ -1,0 +1,22 @@
+<? INC Header.tmpl ?>
+
+<div class="textsection">
+	<?IF LoggedIn ?>
+
+		<h2>Welcome!</h2>	
+		<p>Welcome to bnc.im! If you need any help using ZNC or connecting to IRC, please join #bnc.im on irc.interlinked.me and ping any operator, who will be happy to help. You can also email <a href="mailto:admin@bnc.im">admin@bnc.im</a> or refer to our <a href="http://bnc.im/">main website</a> for more information.</p>
+		<h2>Connecting</h2>
+		<p>The bouncer is listening on all normal IRC ports (6667 for plaintext or 6697 for SSL). For connection instructions, please see our <a href="http://bnc.im/setup.html">setup page</a>.</p>
+	
+	<?ELSE ?>
+		<h2>Welcome</h2>
+		<p>Welcome to bnc.im. We are a public IRC bouncer service that offers free <a href="http://znc.in">znc</a> user accounts for up to three networks.</p>
+		<h2>Registrations</h2>
+		
+		<p>For more information on registrations, please visit our <a href="http://bnc.im/">main website</a>.</p>
+		
+	<? ENDIF ?>
+
+</div>
+
+<? INC Footer.tmpl ?>
