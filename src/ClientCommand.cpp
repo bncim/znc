@@ -689,6 +689,11 @@ void CClient::UserCommand(CString& sLine) {
 			PutStatus("You must be connected with a network to use this command");
 			return;
 		}
+		
+		if (!m_pUser->IsAdmin()) {
+			PutStatus("Please ask an administrator to add new servers. You may contact one using https://bnc.im/webchat.html or by connecting to irc.interlinked.me #bnc.im.");
+			return;
+		}
 
 		if (sServer.empty()) {
 			PutStatus("Usage: AddServer <host> [[+]port] [pass]");
@@ -704,6 +709,11 @@ void CClient::UserCommand(CString& sLine) {
 	} else if (sCommand.Equals("REMSERVER") || sCommand.Equals("DELSERVER")) {
 		if (!m_pNetwork) {
 			PutStatus("You must be connected with a network to use this command");
+			return;
+		}
+		
+		if (!m_pUser->IsAdmin()) {
+			PutStatus("Please ask an administrator to add new servers. You may contact one using https://bnc.im/webchat.html or by connecting to irc.interlinked.me #bnc.im.");
 			return;
 		}
 
