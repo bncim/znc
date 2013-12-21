@@ -907,7 +907,7 @@ class CAdminMod : public CModule {
 		CString sServer = sLine.Token(3, true);
 		
 		if (!m_pUser->IsAdmin()) {
-			PutModule("Please ask an administrator to add new servers. You may contact one using https://bnc.im/webchat.html or by connecting to irc.interlinked.me #bnc.im.");
+			PutModule("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
 			return;
 		}
 
