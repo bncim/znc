@@ -1251,9 +1251,9 @@ public:
 				if (pUser && pUser->DenySetBindHost()) { o11["Checked"] = "true"; }
 				
 				CTemplate& o12 = Tmpl.AddRow("OptionLoop");
-				o10["Name"] = "issubscriber";
-				o10["DisplayName"] = "Subscriber";
-				if (pUser && pUser->IsSubscriber()) { o10["Checked"] = "true"; }
+				o12["Name"] = "issubscriber";
+				o12["DisplayName"] = "Subscriber";
+				if (pUser && pUser->IsSubscriber()) { o12["Checked"] = "true"; }
 			}
 
 			FOR_EACH_MODULE(i, pUser) {
