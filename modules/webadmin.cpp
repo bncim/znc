@@ -822,7 +822,7 @@ public:
 				}
 			} else {
 				if (!spSession->IsAdmin() && !pUser->HasSpaceForNewNetwork() && !pUser->IsSubscriber()) {
-					WebSock.PrintErrorPage("Network number limit reached. Ask an admin to increase the limit for you, or delete unneeded networks from Your Settings.");
+					WebSock.PrintErrorPage("We allow up to 3 networks per user. If you have less than this, you can ask a bnc.im administrator to add more in #bnc.im.");
 					return true;
 				}
 
@@ -855,7 +855,7 @@ public:
 
 		if (!pNetwork) {
 			if (!spSession->IsAdmin() && !pUser->HasSpaceForNewNetwork() && !pUser->IsSubscriber()) {
-				WebSock.PrintErrorPage("Network number limit reached. Ask an admin to increase the limit for you, or delete few old ones from Your Settings");
+				WebSock.PrintErrorPage("We allow up to 3 networks per user. If you have less than this, you can ask a bnc.im administrator to add more in #bnc.im.");
 				return true;
 			}
 			if (!CIRCNetwork::IsValidNetwork(sName)) {

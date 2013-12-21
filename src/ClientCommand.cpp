@@ -494,8 +494,8 @@ void CClient::UserCommand(CString& sLine) {
 		PutStatus("Total: " + CString(vChans.size()) + " - Joined: " + CString(uNumJoined) +
 			" - Detached: " + CString(uNumDetached) + " - Disabled: " + CString(uNumDisabled));
 	} else if (sCommand.Equals("ADDNETWORK")) {
-		if (!m_pUser->IsAdmin() && !m_pUser->HasSpaceForNewNetwork()) {
-			PutStatus("Network number limit reached. Ask an admin to increase the limit for you, or delete unneeded networks using /znc DelNetwork <name>");
+		if (!m_pUser->IsAdmin() && !m_pUser->HasSpaceForNewNetwork() && !m_pUser->IsSubscriber()) {
+			PutStatus("We allow up to 3 networks per user. If you have less than this, you can ask a bnc.im administrator to add more in #bnc.im.");
 			return;
 		}
 

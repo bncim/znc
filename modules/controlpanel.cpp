@@ -819,7 +819,7 @@ class CAdminMod : public CModule {
 		}
 
 		if (!m_pUser->IsAdmin() && !pUser->HasSpaceForNewNetwork() && !pUser->IsSubscriber()) {
-			PutStatus("Network number limit reached. Ask an admin to increase the limit for you, or delete unneeded networks using /znc DelNetwork <name>");
+			PutModule("We allow up to 3 networks per user. If you have less than this, you can ask a bnc.im administrator to add more in #bnc.im.");
 			return;
 		}
 
