@@ -90,6 +90,7 @@ CUser::CUser(const CString& sUserName)
 	m_eHashType = HASH_NONE;
 	m_bDenyLoadMod = false;
 	m_bAdmin= false;
+	m_bSubscriber= false;
 	m_bDenySetBindHost= false;
 	m_sStatusPrefix = "*";
 	m_uBufferCount = 50;
@@ -161,6 +162,7 @@ bool CUser::ParseConfig(CConfig* pConfig, CString& sError) {
 		{ "multiclients", &CUser::SetMultiClients },
 		{ "denyloadmod", &CUser::SetDenyLoadMod },
 		{ "admin", &CUser::SetAdmin },
+		{ "subscriber", &CUser::SetSubscriber },
 		{ "denysetbindhost", &CUser::SetDenySetBindHost },
 		{ "denysetvhost", &CUser::SetDenySetBindHost },
 		{ "appendtimestamp", &CUser::SetTimestampAppend },
@@ -738,6 +740,7 @@ bool CUser::Clone(const CUser& User, CString& sErrorRet, bool bCloneNetworks) {
 	SetMultiClients(User.MultiClients());
 	SetDenyLoadMod(User.DenyLoadMod());
 	SetAdmin(User.IsAdmin());
+	SetSubscriber(User.IsSubscriber());
 	SetDenySetBindHost(User.DenySetBindHost());
 	SetTimestampAppend(User.GetTimestampAppend());
 	SetTimestampPrepend(User.GetTimestampPrepend());
@@ -1102,6 +1105,7 @@ void CUser::SetPass(const CString& s, eHashType eHash, const CString& sSalt) {
 void CUser::SetMultiClients(bool b) { m_bMultiClients = b; }
 void CUser::SetDenyLoadMod(bool b) { m_bDenyLoadMod = b; }
 void CUser::SetAdmin(bool b) { m_bAdmin = b; }
+void CUser::SetSubscriber(bool b) { m_bSubscriber = b; }
 void CUser::SetDenySetBindHost(bool b) { m_bDenySetBindHost = b; }
 void CUser::SetDefaultChanModes(const CString& s) { m_sDefaultChanModes = s; }
 void CUser::SetQuitMsg(const CString& s) { m_sQuitMsg = s; }
@@ -1171,6 +1175,7 @@ CUser::eHashType CUser::GetPassHashType() const { return m_eHashType; }
 const CString& CUser::GetPassSalt() const { return m_sPassSalt; }
 bool CUser::DenyLoadMod() const { return m_bDenyLoadMod; }
 bool CUser::IsAdmin() const { return m_bAdmin; }
+bool CUser::IsSubscriber() const { return m_bSubscriber; }
 bool CUser::DenySetBindHost() const { return m_bDenySetBindHost; }
 bool CUser::MultiClients() const { return m_bMultiClients; }
 const CString& CUser::GetStatusPrefix() const { return m_sStatusPrefix; }

@@ -277,6 +277,7 @@ public:
 		pNewUser->SetTimezone(WebSock.GetParam("timezone"));
 		pNewUser->SetJoinTries(WebSock.GetParam("jointries").ToUInt());
 		pNewUser->SetMaxJoins(WebSock.GetParam("maxjoins").ToUInt());
+		pNewUser->SetSubscriber(WebSock.GetParam("issubscriber").ToBool());
 
 		if (spSession->IsAdmin()) {
 			pNewUser->SetDenyLoadMod(WebSock.GetParam("denyloadmod").ToBool());
@@ -1248,6 +1249,11 @@ public:
 				o11["Name"] = "denysetbindhost";
 				o11["DisplayName"] = "Deny SetBindHost";
 				if (pUser && pUser->DenySetBindHost()) { o11["Checked"] = "true"; }
+				
+				CTemplate& o12 = Tmpl.AddRow("OptionLoop");
+				o10["Name"] = "issubscriber";
+				o10["DisplayName"] = "Subscriber";
+				if (pUser && pUser->IsSubscriber()) { o10["Checked"] = "true"; }
 			}
 
 			FOR_EACH_MODULE(i, pUser) {

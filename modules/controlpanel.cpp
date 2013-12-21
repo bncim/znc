@@ -71,6 +71,7 @@ class CAdminMod : public CModule {
 			{"MaxNetworks",         integer},
 			{"Timezone",            str},
 			{"Admin",               boolean},
+			{"Subscriber",          boolean},
 			{"AppendTimestamp",     boolean},
 			{"PrependTimestamp",    boolean},
 			{"TimestampFormat",     str},
@@ -205,6 +206,8 @@ class CAdminMod : public CModule {
 			PutModule("DCCBindHost = " + CString(pUser->GetDCCBindHost()));
 		else if (sVar == "admin")
 			PutModule("Admin = " + CString(pUser->IsAdmin()));
+		else if (sVar == "subscriber")
+			PutModule("Subscriber = " + CString(pUser->IsSubscriber()));
 		else if (sVar == "statusprefix")
 			PutModule("StatusPrefix = " + pUser->GetStatusPrefix());
 		else
@@ -334,6 +337,15 @@ class CAdminMod : public CModule {
 				bool b = sValue.ToBool();
 				pUser->SetAdmin(b);
 				PutModule("Admin = " + CString(pUser->IsAdmin()));
+			} else {
+				PutModule("Access denied!");
+			}
+		}
+		else if (sVar == "subscriber") {
+			if(m_pUser->IsAdmin() && pUser != m_pUser) {
+				bool b = sValue.ToBool();
+				pUser->SetSubscriber(b);
+				PutModule("Subscriber = " + CString(pUser->IsSubscriber()));
 			} else {
 				PutModule("Access denied!");
 			}
