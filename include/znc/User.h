@@ -208,6 +208,7 @@ protected:
 	bool                  m_bMultiClients;
 	bool                  m_bDenyLoadMod;
 	bool                  m_bAdmin;
+	bool                  m_bSubscriber;
 	bool                  m_bDenySetBindHost;
 	bool                  m_bAutoClearChanBuffer;
 	bool                  m_bBeingDeleted;
