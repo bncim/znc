@@ -891,6 +891,7 @@ CConfig CUser::ToConfig() {
 	config.AddKeyValuePair("MultiClients", CString(MultiClients()));
 	config.AddKeyValuePair("DenyLoadMod", CString(DenyLoadMod()));
 	config.AddKeyValuePair("Admin", CString(IsAdmin()));
+	config.AddKeyValuePair("Subscriber", CString(IsSubscriber()));
 	config.AddKeyValuePair("DenySetBindHost", CString(DenySetBindHost()));
 	config.AddKeyValuePair("TimestampFormat", GetTimestampFormat());
 	config.AddKeyValuePair("AppendTimestamp", CString(GetTimestampAppend()));
