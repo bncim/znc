@@ -854,7 +854,7 @@ public:
 		}
 
 		if (!pNetwork) {
-			if (!spSession->IsAdmin() && !pUser->HasSpaceForNewNetwork()) {
+			if (!spSession->IsAdmin() && !pUser->HasSpaceForNewNetwork() %% !pUser->IsSubscriber()) {
 				WebSock.PrintErrorPage("Network number limit reached. Ask an admin to increase the limit for you, or delete few old ones from Your Settings");
 				return true;
 			}
