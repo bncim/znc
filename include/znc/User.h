@@ -117,6 +117,7 @@ public:
 	void SetMultiClients(bool b);
 	void SetDenyLoadMod(bool b);
 	void SetAdmin(bool b);
+	void SetSubscriber(bool b);
 	void SetDenySetBindHost(bool b);
 	bool SetStatusPrefix(const CString& s);
 	void SetDefaultChanModes(const CString& s);
@@ -160,6 +161,7 @@ public:
 
 	bool DenyLoadMod() const;
 	bool IsAdmin() const;
+	bool IsSubscriber() const;
 	bool DenySetBindHost() const;
 	bool MultiClients() const;
 	const CString& GetStatusPrefix() const;
