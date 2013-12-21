@@ -818,7 +818,7 @@ class CAdminMod : public CModule {
 			return;
 		}
 
-		if (!m_pUser->IsAdmin() && !pUser->HasSpaceForNewNetwork()) {
+		if (!m_pUser->IsAdmin() && !pUser->HasSpaceForNewNetwork() && !pUser->IsSubscriber()) {
 			PutStatus("Network number limit reached. Ask an admin to increase the limit for you, or delete unneeded networks using /znc DelNetwork <name>");
 			return;
 		}
@@ -918,7 +918,7 @@ class CAdminMod : public CModule {
 		CString sNetwork = sLine.Token(2);
 		CString sServer = sLine.Token(3, true);
 		
-		if (!m_pUser->IsAdmin()) {
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
 			PutModule("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
 			return;
 		}

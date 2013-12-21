@@ -100,6 +100,7 @@ CWebSession::CWebSession(const CString& sId, const CString& sIP) : m_sId(sId), m
 }
 
 bool CWebSession::IsAdmin() const { return IsLoggedIn() && m_pUser->IsAdmin(); }
+bool CWebSession::IsSubscriber() const { return IsLoggedIn() && m_pUser->IsSubscriber(); }
 
 CWebAuth::CWebAuth(CWebSock* pWebSock, const CString& sUsername, const CString& sPassword)
 	: CAuthBase(sUsername, sPassword, pWebSock) {
@@ -322,6 +323,10 @@ void CWebSock::SetVars() {
 
 	if (GetSession()->IsAdmin()) {
 		m_Template["IsAdmin"] = "true";
+	}
+	
+	if (GetSession()->IsSubscriber()) {
+		m_Template["IsSubscriber"] = "true";
 	}
 
 	GetSession()->FillMessageLoops(m_Template);

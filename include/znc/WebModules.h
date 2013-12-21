@@ -51,6 +51,7 @@ public:
 	CUser* GetUser() const { return m_pUser; }
 	bool IsLoggedIn() const { return m_pUser != NULL; }
 	bool IsAdmin() const;
+	bool IsSubscriber() const;
 
 	CUser* SetUser(CUser* p) { m_pUser = p; return m_pUser; }
 

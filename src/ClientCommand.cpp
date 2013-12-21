@@ -690,7 +690,7 @@ void CClient::UserCommand(CString& sLine) {
 			return;
 		}
 		
-		if (!m_pUser->IsAdmin()) {
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
 			PutStatus("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
 			return;
 		}
@@ -712,7 +712,7 @@ void CClient::UserCommand(CString& sLine) {
 			return;
 		}
 		
-		if (!m_pUser->IsAdmin()) {
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
 			PutStatus("Please ask an bnc.im administrator to remove servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
 			return;
 		}
