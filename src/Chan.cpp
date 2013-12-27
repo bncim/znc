@@ -556,7 +556,7 @@ void CChan::SendBuffer(CClient* pClient) {
 				NETWORKMODULECALL(OnChanBufferStarting(*this, *pUseClient), m_pNetwork->GetUser(), m_pNetwork, NULL, &bSkipStatusMsg);
 
 				if (!bSkipStatusMsg) {
-					m_pNetwork->PutUser(":***!znc@znc.in PRIVMSG " + GetName() + " :Buffer Playback...", pUseClient);
+					m_pNetwork->PutUser(":***!znc@bnc.im PRIVMSG " + GetName() + " :Buffer Playback...", pUseClient);
 				}
 
 				size_t uSize = m_Buffer.Size();
@@ -571,7 +571,7 @@ void CChan::SendBuffer(CClient* pClient) {
 				bSkipStatusMsg = pUseClient->HasServerTime();
 				NETWORKMODULECALL(OnChanBufferEnding(*this, *pUseClient), m_pNetwork->GetUser(), m_pNetwork, NULL, &bSkipStatusMsg);
 				if (!bSkipStatusMsg) {
-					m_pNetwork->PutUser(":***!znc@znc.in PRIVMSG " + GetName() + " :Playback Complete.", pUseClient);
+					m_pNetwork->PutUser(":***!znc@bnc.im PRIVMSG " + GetName() + " :Playback Complete.", pUseClient);
 				}
 
 				if (pClient)

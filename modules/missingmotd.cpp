@@ -21,7 +21,7 @@ public:
 	MODCONSTRUCTOR(CMissingMotd) {}
 
 	virtual void OnClientLogin() {
-		PutUser(":irc.znc.in 422 :MOTD File is missing");
+		PutUser(":irc.bnc.im 422 :MOTD File is missing");
 	}
 };
 

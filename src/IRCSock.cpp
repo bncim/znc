@@ -165,7 +165,7 @@ void CIRCSock::ReadLine(const CString& sData) {
 
 		switch (uRaw) {
 			case 1: { // :irc.server.com 001 nick :Welcome to the Internet Relay Network nick
-				if (m_bAuthed && sServer == "irc.znc.in") {
+				if (m_bAuthed && sServer == "irc.bnc.im") {
 					// m_bAuthed == true => we already received another 001 => we might be in a traffic loop
 					m_pNetwork->PutStatus("ZNC seems to be connected to itself, disconnecting...");
 					Quit();

@@ -617,7 +617,7 @@ void CUser::UserConnected(CClient* pClient) {
 		BounceAllClients();
 	}
 
-	pClient->PutClient(":irc.znc.in 001 " + pClient->GetNick() + " :- Welcome to ZNC -");
+	pClient->PutClient(":irc.bnc.im 001 " + pClient->GetNick() + " :- Welcome to bnc.im -");
 
 	m_vClients.push_back(pClient);
 }

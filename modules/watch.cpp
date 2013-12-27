@@ -337,9 +337,9 @@ private:
 			if (WatchEntry.IsMatch(Nick, sMessage, sSource, m_pNetwork) &&
 				sHandledTargets.count(WatchEntry.GetTarget()) < 1) {
 				if (m_pNetwork->IsUserAttached()) {
-					m_pNetwork->PutUser(":" + WatchEntry.GetTarget() + "!watch@znc.in PRIVMSG " + m_pNetwork->GetCurNick() + " :" + sMessage);
+					m_pNetwork->PutUser(":" + WatchEntry.GetTarget() + "!watch@bnc.im PRIVMSG " + m_pNetwork->GetCurNick() + " :" + sMessage);
 				} else {
-					m_Buffer.AddLine(":" + _NAMEDFMT(WatchEntry.GetTarget()) + "!watch@znc.in PRIVMSG {target} :{text}", sMessage);
+					m_Buffer.AddLine(":" + _NAMEDFMT(WatchEntry.GetTarget()) + "!watch@bnc.im PRIVMSG {target} :{text}", sMessage);
 				}
 				sHandledTargets.insert(WatchEntry.GetTarget());
 			}

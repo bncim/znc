@@ -104,7 +104,7 @@ public:
 
 				if (!BootStrap(vChans[a]))
 				{
-					PutUser(":***!znc@znc.in PRIVMSG " + vChans[a]->GetName() + " :Failed to decrypt this channel, did you change the encryption pass?");
+					PutUser(":***!znc@bnc.im PRIVMSG " + vChans[a]->GetName() + " :Failed to decrypt this channel, did you change the encryption pass?");
 				}
 			}
 		}
@@ -247,7 +247,7 @@ public:
 	void Replay(const CString & sChan)
 	{
 		CString sFile;
-		PutUser(":***!znc@znc.in PRIVMSG " + sChan + " :Buffer Playback...");
+		PutUser(":***!znc@bnc.im PRIVMSG " + sChan + " :Buffer Playback...");
 		if (DecryptChannel(sChan, sFile))
 		{
 			VCString vsLines;
@@ -261,7 +261,7 @@ public:
 				PutUser(sLine);
 			}
 		}
-		PutUser(":***!znc@znc.in PRIVMSG " + sChan + " :Playback Complete.");
+		PutUser(":***!znc@bnc.im PRIVMSG " + sChan + " :Playback Complete.");
 	}
 
 	CString GetPath(const CString & sChannel)
@@ -275,7 +275,7 @@ public:
 #ifdef LEGACY_SAVEBUFF /* event logging is deprecated now in savebuf. Use buffextras module along side of this */
 	CString SpoofChanMsg(const CString & sChannel, const CString & sMesg)
 	{
-		CString sReturn = ":*" + GetModName() + "!znc@znc.in PRIVMSG " + sChannel + " :" + CString(time(NULL)) + " " + sMesg;
+		CString sReturn = ":*" + GetModName() + "!znc@bnc.im PRIVMSG " + sChannel + " :" + CString(time(NULL)) + " " + sMesg;
 		return(sReturn);
 	}
 
