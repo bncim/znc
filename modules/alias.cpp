@@ -318,7 +318,7 @@ public:
 		}
 		catch (std::exception &e)
 		{
-			PutUser(CString(":znc.in 461 " + GetNetwork()->GetCurNick() + " " + current_alias.GetName() + " :ZNC alias error: ") + e.what());
+			PutUser(CString(":bnc.im 461 " + GetNetwork()->GetCurNick() + " " + current_alias.GetName() + " :ZNC alias error: ") + e.what());
 			return HALTCORE;
 		}
 
