@@ -399,7 +399,7 @@ public:
 		return pNetwork;
 	}
 
-	virtual CString GetWebMenuTitle() { return "webadmin"; }
+	virtual CString GetWebMenuTitle() { return "Web Admin"; }
 	virtual bool OnWebRequest(CWebSock& WebSock, const CString& sPageName, CTemplate& Tmpl) {
 		CSmartPtr<CWebSession> spSession = WebSock.GetSession();
 
