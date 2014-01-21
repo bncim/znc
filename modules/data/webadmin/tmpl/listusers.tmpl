@@ -1,29 +1,29 @@
 <? INC Header.tmpl ?>
 
+    <h1>User List</h1>
 		<?IF !UserLoop?>
-			<div class="textsection">
-				There are no users defined. Click <a href="adduser">here</a> if you would like to add one.
-			</div>
+		<p>
+			There are no users defined. Click <a href="adduser">here</a> if you would like to add one.
+    </p>
 		<?ELSE?>
-			<div class="toptable">
-				<table>
-					<thead>
-					<tr>
-						<td>Action</td>
-						<td>Username</td>
-                        <td>Networks</td>
-						<td>Clients</td>
-					</tr>
-					</thead>
+		<table class="table">
+			<thead>
+			  <tr>
+					<td><strong>Action</strong></td>
+					<td><strong>Username</strong></td>
+          <td><strong>Networks</strong></td>
+					<td><strong>Clients</strong></td>
+				</tr>
+			</thead>
 
-					<tbody>
+			<tbody>
 			<?LOOP UserLoop SORTASC=Username ?>
 					<tr class="<?IF __EVEN__?>evenrow<?ELSE?>oddrow<?ENDIF?>">
 						<td>
 							<span class="nowrap">
-								[<a href="edituser?user=<?VAR Username ESC=URL?>">Edit</a>]
-								[<a href="adduser?clone=<? VAR Username ESC=URL ?>" alt="Clone <? VAR Username ESC=URL ?>">Clone</a>]
-								<? IF !IsSelf ?>[<a href="deluser?user=<?VAR Username ESC=URL?>">Delete</a>]<? ENDIF ?>
+								<strong><a href="edituser?user=<?VAR Username ESC=URL?>">Edit</a></strong> /
+								<strong><a href="adduser?clone=<? VAR Username ESC=URL ?>" alt="Clone <? VAR Username ESC=URL ?>">Clone</a></strong> 
+								<? IF !IsSelf ?>/ <strong><a href="deluser?user=<?VAR Username ESC=URL?>">Delete</a></strong><? ENDIF ?>
 							</span>
 						</td>
 						<td><? VAR Username ?></td>

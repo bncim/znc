@@ -1,64 +1,59 @@
 <? INC Header.tmpl ?>
 
+<h1>Add/Edit Channel</h1>
+<h2>Channel Info</h2>
 <form action="<? IF Edit ?>editchan<? ELSE ?>addchan<? ENDIF ?>" method="post">
 	<? INC _csrf_check.tmpl ?>
-	<div class="section">
-		<input type="hidden" name="submitted" value="1" />
-		<input type="hidden" name="user" value="<? VAR User ?>" />
-		<input type="hidden" name="network" value="<? VAR Network ?>" />
-		<? IF Edit ?><input type="hidden" name="name" value="<? VAR ChanName ?>" /><? ENDIF ?>
+	<input type="hidden" name="submitted" value="1" />
+	<input type="hidden" name="user" value="<? VAR User ?>" />
+	<input type="hidden" name="network" value="<? VAR Network ?>" />
+	<? IF Edit ?><input type="hidden" name="name" value="<? VAR ChanName ?>" /><? ENDIF ?>
 
-		<h3>Channel Info</h3>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<? IF !Edit ?>
-				<div class="subsection half">
-					<div class="inputlabel">Channel Name:</div>
-					<input type="text" name="name" value=""
-						   title="The channel name." />
-				</div>
-				<? ENDIF ?>
+  <table class="table">
+    <? IF !Edit ?>
+    <tr>
+      <td><strong>Channel Name:</strong></td>
+      <td><input type="text" name="name" value="" size="40" title="The channel name." /></td>
+    </tr>
+    <? ENDIF ?>
+    <tr>
+      <td><strong>Key:</strong></td>
+      <td><input type="text" name="key" value="<? VAR Key ?>" size="40" title="The password of the channel, if there is one." /></td>
+    </tr>
+    <tr>
+      <td><strong>Buffer Count:</strong></td>
+      <td><input type="number" name="buffercount" value="<? VAR BufferCount ?>" size="40" min="0" title="The buffer count." /></td>
+    </tr>
+    <tr>
+      <td><strong>Default Modes:</strong></td>
+      <td><input type="text" name="defmodes" value="<? VAR DefModes ?>" size="40" title="The default modes of the channel." /></td>
+    </tr>
+  </table>
 
-				<div class="subsection">
-					<div class="inputlabel">Key:</div>
-					<input type="text" name="key" value="<? VAR Key ?>" size="10"
-						   title="The password of the channel, if there is one." />
-				</div>
-
-				<div class="subsection">
-					<div class="inputlabel">Buffer Count:</div>
-					<input type="number" name="buffercount" value="<? VAR BufferCount ?>" size="10" min="0"
-						   title="The buffer count." />
-				</div>
-
-				<div class="subsection">
-					<div class="inputlabel">Default Modes:</div>
-					<input type="text" name="defmodes" value="<? VAR DefModes ?>" size="10"
-						   title="The default modes of the channel." />
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="section">
-		<h3>Flags</h3>
-		<div class="sectionbg">
-			<div class="sectionbody lotsofcheckboxes">
-				<span class="checkboxandlabel">
-					<input type="checkbox" name="save" id="save" value="true"<? IF InConfig ?> checked="checked"<? ENDIF ?> />
-					<label for="save">Save to config</label>
-				</span>
-				<? LOOP OptionLoop ?>
-				<span class="checkboxandlabel" title="<? VAR Tooltip ?>">
-					<input type="checkbox" name="<? VAR Name ?>" id="opt_<? VAR Name ?>" value="true"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> />
-					<label for="opt_<? VAR Name ?>"><? VAR DisplayName ?></label>
-				</span>
-				<? ENDLOOP ?>
-				<div style="clear:both;"></div>
-			</div>
-		</div>
-	</div>
+  <h2>Flags</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <td><strong>Flag</strong></td>
+        <td><strong>Enabled?</strong></td>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr>
+        <td>Save to config</td>
+        <td><input type="checkbox" name="save" id="save" value="true"<? IF InConfig ?> checked="checked"<? ENDIF ?> /></td>
+      </tr>
+      
+  	<? LOOP OptionLoop ?>
+      <tr>
+        <td><? VAR DisplayName ?></td>
+        <td><input type="checkbox" name="<? VAR Name ?>" id="opt_<? VAR Name ?>" value="1"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> /></td>
+      </tr>
+    	<? ENDLOOP ?>
+    </tbody>
+  </table>
+  
 
 	<? LOOP EmbeddedModuleLoop ?>
 		<? IF Embed ?>
@@ -70,7 +65,7 @@
 	<? ENDLOOP ?>
 
 	<div class="submitline">
-		<input type="submit" value="<? IF Edit ?>Save<? ELSE ?>Add Channel<? ENDIF ?>" />
+		<input type="submit" class="btn btn-success" value="<? IF Edit ?>Save<? ELSE ?>Add Channel<? ENDIF ?>" />
 	</div>
 </form>
 

@@ -1,45 +1,42 @@
 <? INC Header.tmpl ?>
 
+<h1>Notes</h1>
 <form method="post" action="<? VAR ModPath ?>addnote">
 	<? INC _csrf_check.tmpl ?>
-	<div class="section">
-		<h3>Add A Note</h3>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<div class="subsection third">
-					<div class="inputlabel">Key:</div>
-					<input type="text" name="key" size="8" />
-				</div>
-				<div class="subsection full">
-					<div class="inputlabel">Note:</div>
-					<input type="text" name="note" size="40" />
-				</div>
-				<div class="subsection submitline">
-					<input type="submit" name="add" value="Add Note" />
-				</div>
-			</div>
-		</div>
-	</div>
+  <h2>Add a Note</h2>
+  <table class="table">
+    <tr>
+      <td><strong>Key:</strong></td>
+      <td><input type="text" name="key" size="8" /></td>
+    </tr>
+    
+    <tr>
+			<td><strong>Note:</strong></td>
+      <td><input type="text" name="note" size="40" /></td>
+    </tr>
+  </table>
+  <input type="submit" class="btn btn-success" name="add" value="Add Note" />
 </form>
 
+<h2>Existing Notes</h2>
 <? IF !NotesLoop ?>
 <p>You have no notes to display.</p>
 <? ELSE ?>
 
-<table class="data">
+<table class="table">
 	<thead>
 		<tr>
-			<td style="width: 10px;"></td>
-			<td>Key</td>
-			<td>Note</td>
+			<td><strong>Key</strong></td>
+			<td><strong>Note</strong></td>
+      <td><strong>Delete</strong></td>
 		</tr>
 	</thead>
 	<tbody>
 		<? LOOP NotesLoop ?>
-		<tr class="<? IF __EVEN__ ?>evenrow<? ELSE ?>oddrow<? ENDIF ?>">
-			<td><a href="<? VAR ModPath TOP ?>delnote?key=<? VAR Key ESC=URL,HTML ?>"><img src="<? VAR ModFilesPath TOP ?>trash.gif" alt="[del]" /></a></td>
+		<tr>
 			<td><? VAR Key ?></td>
 			<td><? VAR Note ?></td>
+			<td><a href="<? VAR ModPath TOP ?>delnote?key=<? VAR Key ESC=URL,HTML ?>"><strong>Delete</strong></a></td>
 		</tr>
 		<? ENDLOOP ?>
 	</tbody>

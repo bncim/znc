@@ -1,7 +1,7 @@
-						<? LOOP ErrorLoop ?>
-						<div class="errorbar"><? VAR Message ?></div>
-						<? ENDLOOP ?>
+          <? LOOP ErrorLoop ?>
+          <div class="alert alert-error"><? VAR Message ?></div>						
+          <? ENDLOOP ?>
 
-						<? LOOP SuccessLoop ?>
-						<div class="successbar"><? VAR Message ?></div>
-						<? ENDLOOP ?>
+          <? LOOP SuccessLoop ?>
+          <div class="alert alert-success"><? VAR Message ?></div>
+          <? ENDLOOP ?>

@@ -1,24 +1,14 @@
 <? INC Header.tmpl ?>
 
+<h1>Perform Commands</h1>
 <form method="post" action="<? VAR ModPath ?>">
-	<? INC _csrf_check.tmpl ?>
-	<div class="section">
-		<h3>Perform</h3>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<div class="subsection full">
-					<div class="inputlabel">Perform commands:</div>
-					<textarea name="perform" cols="70" rows="5" class="monospace"><? LOOP PerformLoop ?><? VAR Perform ?>
+  <? INC _csrf_check.tmpl ?>
+  <p>Use the form below to enter commands to be sent to the IRC server upon connect.</p>
+  <textarea name="perform" cols="70" rows="5" class="monospace"><? LOOP PerformLoop ?><? VAR Perform ?>
 <? ENDLOOP ?>
 </textarea>
-					<br /><span class="info">Commands sent to the IRC server on connect, one per line.</span>
-				</div>
-				<div class="subsection submitline">
-					<input type="submit" name="save" value="Save" />
-				</div>
-			</div>
-		</div>
-	</div>
+
+  <br /><br /><input type="submit" class="btn btn-success" name="save" value="Save" />
 </form>
 
 <? INC Footer.tmpl ?>

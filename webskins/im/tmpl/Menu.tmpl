@@ -1,48 +1,77 @@
-<div id="menu">
-	<ul class="nav">
-                <li class="topitem"><a href="https://bnc.im/">bnc.im home</a></li>
-                <li class="topitem<? IF !ModName && PageName == "index" ?> active<? ENDIF ?>"><a href="/">webadmin index</a></li>
-		<? IF GlobalModLoop ?>
-			<li class="topitem parent"><span class="title">Global Modules</span>
-				<ul>
-				<? LOOP GlobalModLoop SORTASC=ModName ?>
-					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
-					<? LOOP SubPageLoop ?>
-						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
-					<? ENDLOOP ?>
-				<? ENDLOOP ?>
-				</ul>
-			</li>
-		<? ENDIF ?>
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://bnc.im/">bnc.im</a>
+        </div>
+      
+        <div class="navbar-collapse collapse">
+          <? INC Login.tmpl ?>
+                
+          <ul class="nav navbar-nav">
+            <li<? IF !ModName && PageName == "index" ?> class="active"<? ENDIF ?>><a href="/">Web Admin Index</a></li>
+            <? IF GlobalModLoop ?>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global Modules <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <? LOOP GlobalModLoop SORTASC=ModName ?>
+                <li><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
+                <? LOOP SubPageLoop ?>
+                <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?><? VAR PageName ?>"><? VAR Title ?></a></li>
+                <? ENDLOOP ?>
+                <? ENDLOOP ?>
+              </ul>
+            </li>
+          <? ELSE ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+          <? ENDIF ?>
 
-		<? IF UserModLoop ?>
-			<li class="topitem parent"><span class="title">User Modules</span>
-				<ul>
-				<? LOOP UserModLoop SORTASC=ModName ?>
-					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
-					<? LOOP SubPageLoop ?>
-						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
-					<? ENDLOOP ?>
-				<? ENDLOOP ?>
-				</ul>
-			</li>
-		<? ENDIF ?>
+          <? IF UserModLoop ?>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Modules <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+            <? LOOP UserModLoop SORTASC=ModName ?>
+            <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
+            <? LOOP SubPageLoop ?>
+            <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?><? VAR PageName ?>"><? VAR Title ?></a></li>
+            <? ENDLOOP ?>
+            <? ENDLOOP ?>
+            </ul>
+          </li>
+          <? ENDIF ?>
+        
+          <? IF NetworkModLoop ?>
+          <? LOOP NetworkModLoop SORTASC=NetworkName ?>
+          <? IF ModLoop ?>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Network Modules (<? VAR NetworkName ?>) <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+            <? LOOP UserModLoop SORTASC=ModName ?>
+              <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
+              <? LOOP SubPageLoop ?>
+              <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
+              <? ENDLOOP ?>
+              <? ENDLOOP ?>
+            </ul>
+          </li>
+          <? ENDIF ?>
+          <? ENDLOOP ?>
+          <? ENDIF ?>
+          <? IF LoggedIn ?>
+          <li><a href="https://bnc.im/webchat.html">Webchat</a></li>
+          <li><a href="/logout">Logout</a></li>
+          <? ENDIF ?>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-		<? IF NetworkModLoop ?>
-			<? LOOP NetworkModLoop SORTASC=NetworkName ?>
-				<? IF ModLoop ?>
-					<li class="topitem parent"><span class="title">Network Modules (<? VAR NetworkName ?>)</span>
-						<ul>
-						<? LOOP ModLoop SORTASC=ModName ?>
-							<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
-							<? LOOP SubPageLoop ?>
-								<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>/<? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
-							<? ENDLOOP ?>
-						<? ENDLOOP ?>
-						</ul>
-					</li>
-				<? ENDIF ?>
-			<? ENDLOOP ?>
-		<? ENDIF ?>
-	</ul>
-</div>

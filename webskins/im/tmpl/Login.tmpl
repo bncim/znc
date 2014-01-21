@@ -1,0 +1,13 @@
+          <? IF LoggedIn ?>
+          <? ELSE ?>
+          <form class="navbar-form navbar-right" action="/login" method="post" role="form">
+            <input type="hidden" name="submitted" value="1" />
+            <div class="form-group">
+              <input type="text" placeholder="Username" name="user" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" name="pass" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+          </form>
+          <? ENDIF ?>

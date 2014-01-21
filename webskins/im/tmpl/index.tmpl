@@ -3,7 +3,7 @@
 <div class="textsection">
 	<?IF LoggedIn ?>
 
-		<h2>Welcome!</h2>	
+		<h2>Welcome, <? VAR SessionUser DEFAULT="Guest" ?>!</h2>	
 		<p>Welcome to bnc.im! If you need any help using our service or connecting to IRC, please join <strong>#bnc.im</strong> on <strong>irc.interlinked.me or irc.freenode.net</strong> and ping any operator, who will be happy to help. We also have a <a href="https://bnc.im/webchat.html">webchat client</a> which can take you directly to our support channel. If all else fails, you can email us at <a href="mailto:admin@bnc.im">admin@bnc.im</a>.
             
 		<h2>Connecting</h2>
@@ -13,7 +13,7 @@
         <p>To add new networks to your bnc.im account (we allow up to <strong>3</strong> per user), please join us in <strong>#bnc.im</strong> on <strong>irc.interlinked.me or irc.freenode.net</strong> and ask an operator. You can also use the <a href="https://bnc.im/webchat.html">webchat client</a>.</p>
 	
 	<?ELSE ?>
-		<h2>Welcome</h2>
+		<h2>Welcome!</h2>
 		<p>Welcome to bnc.im. We are a public IRC bouncer service that offers free <a href="http://znc.in">znc</a> user accounts for up to three networks.</p>
         
 		<h2>Registrations</h2>

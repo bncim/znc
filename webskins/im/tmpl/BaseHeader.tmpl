@@ -1,63 +1,40 @@
 <? INC DocType.tmpl ?>
 <? INC Options.tmpl ?>
-<? ADDROW CSSLoop HREF=/skinfiles/_default_/global.css ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<title>bnc.im</title>
-		<? LOOP CSSLoop ?>
-		<?IF HREF?><link rel="stylesheet" type="text/css" href="<? VAR HREF ?>" /><?ENDIF?>
-		<?ENDLOOP?>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="bnc.im, a free irc bouncer service">
+    <meta name="author" content="bnc.im">
 
-		<? LOOP JSLoop ?>
-		<?IF HREF?><script type="text/javascript" src="<? VAR HREF ?>"></script><?ENDIF?>
-		<?ENDLOOP?>
+    <title>bnc.im - webadmin</title>
 
-		<? INC ExtraHeader.tmpl ?>
-	</head>
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-46483680-1', 'bnc.im');
+      ga('send', 'pageview');
+    </script>
 
-	<body>
-		<!-- Wrapper -->
-		<div id="wrapper">
-			<!-- Banner -->
-			<? INC Banner.tmpl ?>
-			<!-- !Banner -->
+    <!-- Bootstrap core CSS -->
+    <link href="/pub/dist/css/bootstrap.css" rel="stylesheet">
 
-			<!-- MessageBar -->
-			<? INC MessageBar.tmpl ?>
-			<!-- !MessageBar -->
+    <!-- Custom styles for this template -->
+    <link href="/pub/dist/css/navbar-static-top.css" rel="stylesheet">
 
-			<!-- InfoBar -->
-			<? INC InfoBar.tmpl ?>
-			<!-- !InfoBar -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 
-			<!-- Main -->
-			<div id="main">
-				<!-- Menu -->
-				<? INC Menu.tmpl ?>
-				<!-- !Menu -->
+    <![endif]-->
+  </head>
 
-				<!-- Content -->
-				<div id="content">
-
-					<!-- BreadCrumbs -->
-					<? INC BreadCrumbs.tmpl ?>
-					<!-- !BreadCrumbs -->
-
-					<div id="subpage">
-
-						<? REM ?>
-							In your subpage (module page or static page) you'll probably want to do something like this...
-
-								<? INC Header.tmpl ?>
-								This is my <b>super</b> cool sub page!
-								<? INC Footer.tmpl ?>
-
-							If you'd like to add your own local css file to be included after the global main.css,
-							you can make your own Header.tmpl like so...
-
-								<? ADDROW CSSLoop HREF=/pub/your_local.css ?>
-								<? ADDROW JSLoop HREF=/pub/your_local.js ?>
-								<? INC BaseHeader.tmpl ?>
-
-						<? ENDREM ?>
+  <body>		
+    <? INC Menu.tmpl ?>
+    <div class="container">
