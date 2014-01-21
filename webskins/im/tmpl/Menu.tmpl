@@ -53,9 +53,9 @@
           <? LOOP NetworkModLoop SORTASC=NetworkName ?>
           <? IF ModLoop ?>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Network Modules (<? VAR NetworkName ?>) <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><? VAR NetworkName ?> <b class="caret"></b></a>
             <ul class="dropdown-menu">
-            <? LOOP UserModLoop SORTASC=ModName ?>
+            <? LOOP ModLoop SORTASC=ModName ?>
               <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
               <? LOOP SubPageLoop ?>
               <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
