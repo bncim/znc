@@ -18,8 +18,8 @@
           <ul class="nav navbar-nav">
             <? IF LoggedIn ?>
             <li<? IF !ModName && PageName == "index" ?> class="active"<? ENDIF ?>><a href="/">Web Admin Index</a></li>
-            <? ENDIF ?>
             <li<? IF Active ?> class="active"<? ENDIF ?>><a href="/mods/global/webadmin/edituser">Settings</a></li>
+            <? ENDIF ?>
             <? IF GlobalModLoop ?>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global Modules <b class="caret"></b></a>
