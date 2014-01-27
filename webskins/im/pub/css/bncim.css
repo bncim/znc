@@ -25,4 +25,6 @@
 	  table-layout: fixed;
 	}
 
-
+	navbar.ul {
+	  text-transform: lowercase;
+	}
