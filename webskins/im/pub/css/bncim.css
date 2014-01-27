@@ -25,6 +25,7 @@
 	  table-layout: fixed;
 	}
 
-	navbar.ul {
+
+	.navbar-nav {
 	  text-transform: lowercase;
 	}
