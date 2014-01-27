@@ -14,9 +14,11 @@
         <div class="navbar-collapse collapse">
           <? IF LoggedIn ?>
           <? INC Donate.tmpl ?>
-                
+          <? ENDIF ?>
           <ul class="nav navbar-nav">
+            <? IF LoggedIn ?>
             <li<? IF !ModName && PageName == "index" ?> class="active"<? ENDIF ?>><a href="/">Web Admin Index</a></li>
+            <? ENDIF ?>
             <li<? IF Active ?> class="active"<? ENDIF ?>><a href="/mods/global/webadmin/edituser">Settings</a></li>
             <? IF GlobalModLoop ?>
             <li class="dropdown">
