@@ -12,12 +12,13 @@
         </div>
       
         <div class="navbar-collapse collapse">
-          <? INC Login.tmpl ?>
+          <? IF LoggedIn ?>
+          <? INC Donate.tmpl ?>
                 
           <ul class="nav navbar-nav">
             <li<? IF !ModName && PageName == "index" ?> class="active"<? ENDIF ?>><a href="/">Web Admin Index</a></li>
-            <? IF GlobalModLoop ?>
             <li<? IF Active ?> class="active"<? ENDIF ?>><a href="/mods/global/webadmin/edituser">Settings</a></li>
+            <? IF GlobalModLoop ?>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global Modules <b class="caret"></b></a>
               <ul class="dropdown-menu">
