@@ -21,4 +21,8 @@
           text-align: center;
 	}
 
+	.table {
+	  table-layout: fixed;
+	}
+
 
