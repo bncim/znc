@@ -17,12 +17,11 @@
           <? ENDIF ?>
           <ul class="nav navbar-nav">
             <? IF LoggedIn ?>
-            <li<? IF !ModName && PageName == "index" ?> class="active"<? ENDIF ?>><a href="/">Web Admin Index</a></li>
-            <li<? IF Active ?> class="active"<? ENDIF ?>><a href="/mods/global/webadmin/edituser">Settings</a></li>
+            <li<? IF Active ?> class="active"<? ENDIF ?>><a href="/mods/global/webadmin/edituser"><span class="fa fa-cog fa-fw"></span> Settings</a></li>
             <? ENDIF ?>
             <? IF GlobalModLoop ?>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Global Modules <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-globe fa-fw"></span> Global Modules <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <? LOOP GlobalModLoop SORTASC=ModName ?>
                 <li><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
@@ -41,7 +40,7 @@
 
           <? IF UserModLoop ?>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Modules <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user fa-fw"></span> User Modules <b class="caret"></b></a>
             <ul class="dropdown-menu">
             <? LOOP UserModLoop SORTASC=ModName ?>
             <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
@@ -57,7 +56,7 @@
           <? LOOP NetworkModLoop SORTASC=NetworkName ?>
           <? IF ModLoop ?>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><? VAR NetworkName ?> <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-terminal fa-fw"></span> <? VAR NetworkName ?> <b class="caret"></b></a>
             <ul class="dropdown-menu">
             <? LOOP ModLoop SORTASC=ModName ?>
               <li<? IF Active ?> class="active"<? ENDIF ?>><a href="<? VAR ModPath ?>"><? VAR Title ?></a></li>
@@ -71,8 +70,14 @@
           <? ENDLOOP ?>
           <? ENDIF ?>
           <? IF LoggedIn ?>
-          <li><a href="https://bnc.im/webchat.html">Webchat</a></li>
-          <li><a href="/logout">Logout</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-question fa-fw"></span> support <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/uptime">Uptime</a></li>
+              <li><a href="/webchat">Webchat</a></li>
+              <li><a href="/faqs">FAQs</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
           <? ENDIF ?>
         </ul>
       </div>
