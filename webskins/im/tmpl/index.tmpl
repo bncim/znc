@@ -13,12 +13,39 @@
         <p>To add new networks to your bnc.im account (we allow up to <strong>3</strong> per user), please join us in <strong>#bnc.im</strong> on <strong>irc.interlinked.me or irc.freenode.net</strong> and ask an operator. You can also use the <a href="https://bnc.im/webchat.html">webchat client</a>.</p>
 	
 	<?ELSE ?>
-		<h2>Welcome!</h2>
-		<p>Welcome to bnc.im. We are a public IRC bouncer service that offers free <a href="http://znc.in">znc</a> user accounts for up to three networks.</p>
-        
-		<h2>Registrations</h2>
-		<p>For more information on registrations, please visit our <a href="http://bnc.im/">main website</a> or visit us on IRC in <strong>#bnc.im</strong> on <strong>irc.interlinked.me or irc.freenode.net</strong> and type <em>!request</em>. You can also use our <a href="https://bnc.im/webchat.html">webchat client</a> to do this.</p>
-		
+  <div class="row login">
+    <div class="col-md-6 centerbox">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title">bnc.im panel login</h1>
+        </div>
+
+        <div class="panel-body">
+          <form accept-charset="UTF-8" method="post" action="/login" id="login" role="form" class="form-horizontal">
+            <input type="hidden" name="submitted" value="1" />
+            <fieldset>
+              <div class="row">
+                <div class="form-group">
+                  <label for="user" class="col-lg-4 control-label">Username</label>
+                  <div class="col-lg-6">
+                    <input class="form-control" placeholder="Username" name="user" type="text">
+                  </div><br />
+                </div>
+                <div class="form-group">
+                  <label for="pass" class="col-lg-4 control-label">Password</label>
+                  <div class="col-lg-6">
+                    <input class="form-control" placeholder="Password" name="pass" type="password" value="">
+                  </div><br />
+                </div></div><hr />
+                <div class="form-group">
+                  <button type="submit" class="btn btn-lg btn-primary">Login</button>
+                </div>
+              </fieldset>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div><br /><br />		
 	<? ENDIF ?>
 
 </div>
