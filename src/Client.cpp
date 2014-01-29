@@ -673,6 +673,7 @@ void CClient::AcceptLogin(CUser& User) {
 	SetTimeout(540, TMO_READ);
 
 	SetSockName("USR::" + m_pUser->GetUserName());
+	SetEncoding(m_pUser->GetClientEncoding());
 
 	if (!m_sNetwork.empty()) {
 		m_pNetwork = m_pUser->FindNetwork(m_sNetwork);
@@ -927,6 +928,6 @@ void CClient::HandleCap(const CString& sLine)
 		}
 		RespondCap("ACK :" + sList.TrimSuffix_n(" "));
 	} else {
-		PutClient(":irc.bnc.im 410 " + GetNick() + " :Invalid CAP subcommand");
+		PutClient(":irc.bnc.im 410 " + GetNick() + " " + sSubCmd + " :Invalid CAP subcommand");
 	}
 }

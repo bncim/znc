@@ -102,6 +102,7 @@ CUser::CUser(const CString& sUserName)
 	m_bAppendTimestamp = false;
 	m_bPrependTimestamp = true;
 	m_uMaxNetworks = 1;
+	m_sClientEncoding = "";
 	m_pUserTimer = new CUserTimer(this);
 	CZNC::Get().GetManager().AddCron(m_pUserTimer);
 }
@@ -148,6 +149,7 @@ bool CUser::ParseConfig(CConfig* pConfig, CString& sError) {
 		{ "dccvhost", &CUser::SetDCCBindHost },
 		{ "timestampformat", &CUser::SetTimestampFormat },
 		{ "skin", &CUser::SetSkinName },
+		{ "clientencoding", &CUser::SetClientEncoding },
 	};
 	size_t numStringOptions = sizeof(StringOptions) / sizeof(StringOptions[0]);
 	TOption<unsigned int> UIntOptions[] = {
@@ -406,6 +408,28 @@ bool CUser::ParseConfig(CConfig* pConfig, CString& sError) {
 		if (sModName == "fakeonline") {
 			CUtils::PrintMessage("NOTICE: [fakeonline] was renamed, loading [modules_online] instead");
 			sModName = "modules_online";
+		}
+
+		// XXX Legacy crap, added in 1.3
+		if (sModName == "charset") {
+			CUtils::PrintAction("NOTICE: Charset support was moved to core, importing old charset module settings");
+			size_t uIndex = 1;
+			if (sValue.Token(uIndex).Equals("-force")) {
+				uIndex++;
+			}
+			VCString vsClient, vsServer;
+			sValue.Token(uIndex).Split(",", vsClient);
+			sValue.Token(uIndex + 1).Split(",", vsServer);
+			if (vsClient.empty() || vsServer.empty()) {
+				CUtils::PrintStatus(false, "charset module was loaded with wrong parameters.");
+				continue;
+			}
+			SetClientEncoding(vsClient[0]);
+			for (vector<CIRCNetwork*>::iterator it = m_vIRCNetworks.begin(); it != m_vIRCNetworks.end(); ++it) {
+				(*it)->SetEncoding(vsServer[0]);
+			}
+			CUtils::PrintStatus(true, "Using [" + vsClient[0] + "] for clients, and [" + vsServer[0] + "] for servers");
+			continue;
 		}
 
 		CUtils::PrintAction("Loading user module [" + sModName + "]");
@@ -702,6 +726,7 @@ bool CUser::Clone(const CUser& User, CString& sErrorRet, bool bCloneNetworks) {
 	SetJoinTries(User.JoinTries());
 	SetMaxNetworks(User.MaxNetworks());
 	SetMaxJoins(User.MaxJoins());
+	SetClientEncoding(User.GetClientEncoding());
 
 	// Allowed Hosts
 	m_ssAllowedHosts.clear();
@@ -900,6 +925,7 @@ CConfig CUser::ToConfig() {
 	config.AddKeyValuePair("JoinTries", CString(m_uMaxJoinTries));
 	config.AddKeyValuePair("MaxNetworks", CString(m_uMaxNetworks));
 	config.AddKeyValuePair("MaxJoins", CString(m_uMaxJoins));
+	config.AddKeyValuePair("ClientEncoding", GetClientEncoding());
 
 	// Allow Hosts
 	if (!m_ssAllowedHosts.empty()) {
@@ -1109,6 +1135,7 @@ void CUser::SetAdmin(bool b) { m_bAdmin = b; }
 void CUser::SetSubscriber(bool b) { m_bSubscriber = b; }
 void CUser::SetDenySetBindHost(bool b) { m_bDenySetBindHost = b; }
 void CUser::SetDefaultChanModes(const CString& s) { m_sDefaultChanModes = s; }
+void CUser::SetClientEncoding(const CString& s) { m_sClientEncoding = s; }
 void CUser::SetQuitMsg(const CString& s) { m_sQuitMsg = s; }
 void CUser::SetAutoClearChanBuffer(bool b) { m_bAutoClearChanBuffer = b; }
 
@@ -1181,6 +1208,7 @@ bool CUser::DenySetBindHost() const { return m_bDenySetBindHost; }
 bool CUser::MultiClients() const { return m_bMultiClients; }
 const CString& CUser::GetStatusPrefix() const { return m_sStatusPrefix; }
 const CString& CUser::GetDefaultChanModes() const { return m_sDefaultChanModes; }
+const CString& CUser::GetClientEncoding() const { return m_sClientEncoding; }
 bool CUser::HasSpaceForNewNetwork() const { return GetNetworks().size() < MaxNetworks(); }
 
 CString CUser::GetQuitMsg() const { return (!m_sQuitMsg.Trim_n().empty()) ? m_sQuitMsg : CZNC::GetTag(false); }
