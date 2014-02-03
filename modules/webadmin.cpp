@@ -821,8 +821,8 @@ public:
 					}
 				}
 			} else {
-				if (!spSession->IsAdmin() && !pUser->HasSpaceForNewNetwork() && !pUser->IsSubscriber()) {
-					WebSock.PrintErrorPage("We allow up to 3 networks per user. If you have less than this, you can ask a bnc.im administrator to add more in #bnc.im.");
+				if (!spSession->IsAdmin() && !pUser->IsSubscriber()) {
+					WebSock.PrintErrorPage("Please contact an administrator to add or remove networks. You can use our webchat (https://bnc.im/webchat) or email admin@bnc.im.");
 					return true;
 				}
 
@@ -854,8 +854,8 @@ public:
 		}
 
 		if (!pNetwork) {
-			if (!spSession->IsAdmin() && !pUser->HasSpaceForNewNetwork() && !pUser->IsSubscriber()) {
-				WebSock.PrintErrorPage("We allow up to 3 networks per user. If you have less than this, you can ask a bnc.im administrator to add more in #bnc.im.");
+			if (!spSession->IsAdmin() && !pUser->IsSubscriber()) {
+				WebSock.PrintErrorPage("Please contact an administrator to add or remove networks. You can use our webchat (https://bnc.im/webchat) or email admin@bnc.im.");
 				return true;
 			}
 			if (!CIRCNetwork::IsValidNetwork(sName)) {
