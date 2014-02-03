@@ -128,7 +128,7 @@
   		<tr>
 				<td>
 		      <input type="hidden" name="network" value="<? VAR Name ?>" />
-				  <strong><a href="editnetwork?user=<? VAR Username ESC=URL ?>&amp;network=<? VAR Name ESC=URL ?>">Edit</a></strong> / <strong><a href="delnetwork?user=<? VAR Username ESC=URL ?>&amp;name=<? VAR Name ESC=URL ?>">Delete</strong>
+				  <strong><a href="editnetwork?user=<? VAR Username ESC=URL ?>&amp;network=<? VAR Name ESC=URL ?>">Edit</a></strong> <? IF IsAdmin ?>/ <strong><a href="delnetwork?user=<? VAR Username ESC=URL ?>&amp;name=<? VAR Name ESC=URL ?>">Delete</strong><? ELSE ?><? IF IsSubscriber ?>/ <strong><a href="delnetwork?user=<? VAR Username ESC=URL ?>&amp;name=<? VAR Name ESC=URL ?>">Delete</strong><? ENDIF ?><? ENDIF ?>
         </td>
 				<td><? VAR Name ?></td>
 				<td><? VAR Clients ?></td>
