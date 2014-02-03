@@ -501,6 +501,11 @@ void CClient::UserCommand(CString& sLine) {
 		}
 
 		CString sNetwork = sLine.Token(1);
+		
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
+			PutStatus("Please ask an bnc.im administrator to add new networks. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
+			return;
+		}
 
 		if (sNetwork.empty()) {
 			PutStatus("Usage: AddNetwork <name>");
@@ -520,6 +525,11 @@ void CClient::UserCommand(CString& sLine) {
 		}
 	} else if (sCommand.Equals("DELNETWORK")) {
 		CString sNetwork = sLine.Token(1);
+		
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
+			PutStatus("Please ask an bnc.im administrator to remove networks. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
+			return;
+		}
 
 		if (sNetwork.empty()) {
 			PutStatus("Usage: DelNetwork <name>");
@@ -692,7 +702,7 @@ void CClient::UserCommand(CString& sLine) {
 		}
 		
 		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
-			PutStatus("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
+			PutStatus("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
 			return;
 		}
 
@@ -714,7 +724,7 @@ void CClient::UserCommand(CString& sLine) {
 		}
 		
 		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
-			PutStatus("Please ask an bnc.im administrator to remove servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
+			PutStatus("Please ask an bnc.im administrator to remove servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
 			return;
 		}
 

@@ -821,6 +821,11 @@ class CAdminMod : public CModule {
 		CString sUser = sLine.Token(1);
 		CString sNetwork = sLine.Token(2);
 		CUser *pUser = m_pUser;
+		
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
+			PutModule("Please ask an bnc.im administrator to add new networks. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
+			return;
+		}
 
 		if (sNetwork.empty()) {
 			sNetwork = sUser;
@@ -859,6 +864,11 @@ class CAdminMod : public CModule {
 		CString sUser = sLine.Token(1);
 		CString sNetwork = sLine.Token(2);
 		CUser *pUser = m_pUser;
+		
+		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
+			PutStatus("Please ask an bnc.im administrator to remove networks. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
+			return;
+		}
 
 		if (sNetwork.empty()) {
 			sNetwork = sUser;
@@ -938,7 +948,7 @@ class CAdminMod : public CModule {
 		CString sServer = sLine.Token(3, true);
 		
 		if (!m_pUser->IsAdmin() && !m_pUser->IsSubscriber()) {
-			PutModule("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.html.");
+			PutModule("Please ask an bnc.im administrator to add new servers. You may contact one by connecting to irc.interlinked.me #bnc.im or using https://bnc.im/webchat.");
 			return;
 		}
 
