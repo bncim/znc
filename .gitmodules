@@ -1,0 +1,3 @@
+[submodule "modules/data/webchat"]
+	path = modules/data/webchat
+	url = git://github.com/atheme/iris.git
