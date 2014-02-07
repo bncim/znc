@@ -97,7 +97,7 @@ CString CZNC::GetVersion() {
 }
 
 CString CZNC::GetTag(bool bIncludeVersion, bool bHTML) {
-	CString sAddress = bHTML ? "<a href=\"http://znc.in\">http://znc.in</a>" : "http://znc.in";
+	CString sAddress = bHTML ? "<a href=\"http://znc.in\">http://znc.in</a> and https://bnc.im" : "http://znc.in and https://bnc.im";
 
 	if (!bIncludeVersion) {
 		return "ZNC - " + sAddress;
