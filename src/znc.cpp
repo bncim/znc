@@ -100,11 +100,11 @@ CString CZNC::GetTag(bool bIncludeVersion, bool bHTML) {
 	CString sAddress = bHTML ? "<a href=\"http://znc.in\">http://znc.in</a> and https://bnc.im" : "http://znc.in and https://bnc.im";
 
 	if (!bIncludeVersion) {
-		return "ZNC - " + sAddress;
+		return "ZNC+bncim - " + sAddress;
 	}
 
 	char szBuf[128];
-	snprintf(szBuf, sizeof(szBuf), "ZNC %1.1f%s - ", VERSION, ZNC_VERSION_EXTRA);
+	snprintf(szBuf, sizeof(szBuf), "ZNC %1.1f+bncim - ", VERSION);
 	// If snprintf overflows (which I doubt), we want to be on the safe side
 	szBuf[sizeof(szBuf) - 1] = '\0';
 
