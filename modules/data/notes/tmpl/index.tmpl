@@ -1,7 +1,7 @@
 <? INC Header.tmpl ?>
 
 <h1>Notes</h1>
-<form method="post" action="<? VAR ModPath ?>addnote">
+<form method="post" action="<? VAR URIPrefix TOP ?><? VAR ModPath ?>addnote">
 	<? INC _csrf_check.tmpl ?>
   <h2>Add a Note</h2>
   <table class="table">
@@ -36,7 +36,7 @@
 		<tr>
 			<td><? VAR Key ?></td>
 			<td><? VAR Note ?></td>
-			<td><a href="<? VAR ModPath TOP ?>delnote?key=<? VAR Key ESC=URL,HTML ?>"><strong>Delete</strong></a></td>
+			<td><a href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>delnote?key=<? VAR Key ESC=URL,HTML ?>"><strong>Delete</strong></a></td>
 		</tr>
 		<? ENDLOOP ?>
 	</tbody>

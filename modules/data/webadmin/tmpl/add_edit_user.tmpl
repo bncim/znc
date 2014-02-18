@@ -1,7 +1,7 @@
 <? INC Header.tmpl ?>
 
 <h1>Your Settings</h1>
-<form action="<? IF Edit ?>edituser<? ELSE ?>adduser<? ENDIF ?>" method="post">
+<form action="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?><? IF Edit ?>edituser<? ELSE ?>adduser<? ENDIF ?>" method="post">
 	<? INC _csrf_check.tmpl ?>
 	<input type="hidden" name="submitted" value="1" />
 

@@ -101,6 +101,7 @@ public:
 		CString sArgs(sArgStr);
 		CString sPort;
 		CString sListenHost;
+		CString sURIPrefix;
 
 		while (sArgs.Left(1) == "-") {
 			CString sOpt = sArgs.Token(0);
@@ -150,7 +151,7 @@ public:
 		}
 
 		// Now turn that into a listener instance
-		CListener *pListener = new CListener(uPort, sListenHost, bSSL,
+		CListener *pListener = new CListener(uPort, sListenHost, sURIPrefix, bSSL,
 				(!bIPv6 ? ADDR_IPV4ONLY : ADDR_ALL), CListener::ACCEPT_HTTP);
 
 		if (!pListener->Listen()) {
@@ -545,7 +546,7 @@ public:
 				WebSock.PrintErrorPage("Please don't delete yourself, suicide is not the answer!");
 				return true;
 			} else if (CZNC::Get().DeleteUser(sUser)) {
-				WebSock.Redirect("listusers");
+				WebSock.Redirect(GetWebPath() + "listusers");
 				return true;
 			}
 
@@ -713,7 +714,7 @@ public:
 			return true;
 		}
 
-		WebSock.Redirect("editnetwork?user=" + pUser->GetUserName().Escape_n(CString::EURL) + "&network=" + pNetwork->GetName().Escape_n(CString::EURL));
+		WebSock.Redirect(GetWebPath() + "editnetwork?user=" + pUser->GetUserName().Escape_n(CString::EURL) + "&network=" + pNetwork->GetName().Escape_n(CString::EURL));
 		return true;
 	}
 
@@ -987,7 +988,7 @@ public:
 			return true;
 		}
 
-		WebSock.Redirect("edituser?user=" + pUser->GetUserName().Escape_n(CString::EURL));
+		WebSock.Redirect(GetWebPath() + "edituser?user=" + pUser->GetUserName().Escape_n(CString::EURL));
 		return true;
 	}
 
@@ -1023,7 +1024,7 @@ public:
 			return true;
 		}
 
-		WebSock.Redirect("edituser?user=" + pUser->GetUserName().Escape_n(CString::EURL));
+		WebSock.Redirect(GetWebPath() + "edituser?user=" + pUser->GetUserName().Escape_n(CString::EURL));
 		return false;
 	}
 
@@ -1043,7 +1044,7 @@ public:
 			return true;
 		}
 
-		WebSock.Redirect("editnetwork?user=" + pNetwork->GetUser()->GetUserName().Escape_n(CString::EURL) + "&network=" + pNetwork->GetName().Escape_n(CString::EURL));
+		WebSock.Redirect(GetWebPath() + "editnetwork?user=" + pNetwork->GetUser()->GetUserName().Escape_n(CString::EURL) + "&network=" + pNetwork->GetName().Escape_n(CString::EURL));
 		return false;
 	}
 
@@ -1328,9 +1329,9 @@ public:
 		}
 
 		if (!spSession->IsAdmin()) {
-			WebSock.Redirect("edituser");
+			WebSock.Redirect(GetWebPath() + "edituser");
 		} else {
-			WebSock.Redirect("listusers");
+			WebSock.Redirect(GetWebPath() + "listusers");
 		}
 
 		/* we don't want the template to be printed while we redirect */
@@ -1428,6 +1429,7 @@ public:
 	bool AddListener(CWebSock& WebSock, CTemplate& Tmpl) {
 		unsigned short uPort = WebSock.GetParam("port").ToUShort();
 		CString sHost = WebSock.GetParam("host");
+		CString sURIPrefix = WebSock.GetParam("uriprefix");
 		if (sHost == "*") sHost = "";
 		bool bSSL = WebSock.GetParam("ssl").ToBool();
 		bool bIPv4 = WebSock.GetParam("ipv4").ToBool();
@@ -1468,7 +1470,7 @@ public:
 		}
 
 		CString sMessage;
-		if (CZNC::Get().AddListener(uPort, sHost, bSSL, eAddr, eAccept, sMessage)) {
+		if (CZNC::Get().AddListener(uPort, sHost, sURIPrefix, bSSL, eAddr, eAccept, sMessage)) {
 			if (!sMessage.empty()) {
 				WebSock.GetSession()->AddSuccess(sMessage);
 			}
@@ -1552,6 +1554,8 @@ public:
 
 				l["IsWeb"] = CString(pListener->GetAcceptType() != CListener::ACCEPT_IRC);
 				l["IsIRC"] = CString(pListener->GetAcceptType() != CListener::ACCEPT_HTTP);
+
+				l["URIPrefix"] = pListener->GetURIPrefix() + "/";
 
 				// simple protection for user from shooting his own foot
 				// TODO check also for hosts/families
@@ -1696,7 +1700,7 @@ public:
 			WebSock.GetSession()->AddError("Settings changed, but config was not written");
 		}
 
-		WebSock.Redirect("settings");
+		WebSock.Redirect(GetWebPath() + "settings");
 		/* we don't want the template to be printed while we redirect */
 		return false;
 	}

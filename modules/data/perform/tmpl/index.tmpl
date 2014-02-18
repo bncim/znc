@@ -1,7 +1,7 @@
 <? INC Header.tmpl ?>
 
 <h1>Perform Commands</h1>
-<form method="post" action="<? VAR ModPath ?>">
+<form method="post" action="<? VAR URIPrefix TOP ?><? VAR ModPath ?>">
   <? INC _csrf_check.tmpl ?>
   <p>Use the form below to enter commands to be sent to the IRC server upon connect.</p>
   <textarea name="perform" cols="70" rows="5" class="monospace"><? LOOP PerformLoop ?><? VAR Perform ?>

@@ -118,7 +118,7 @@ public:
 		PAGE_DONE      // all stuff has been done
 	};
 
-	CWebSock();
+	CWebSock(const CString& sURIPrefix);
 	virtual ~CWebSock();
 
 	virtual bool ForceLogin();

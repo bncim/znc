@@ -186,7 +186,7 @@ void CWebAuth::Invalidate() {
 	m_pWebSock = NULL;
 }
 
-CWebSock::CWebSock() : CHTTPSock(NULL) {
+CWebSock::CWebSock(const CString& sURIPrefix) : CHTTPSock(NULL, sURIPrefix) {
 	m_bPathsSet = false;
 
 	m_Template.AddTagHandler(new CZNCTagHandler(*this));
@@ -326,6 +326,7 @@ void CWebSock::SetVars() {
 	m_Template["Version"] = CZNC::GetVersion();
 	m_Template["SkinName"] = GetSkinName();
 	m_Template["_CSRF_Check"] = GetCSRFCheck();
+	m_Template["URIPrefix"] = GetURIPrefix();
 
 	if (GetSession()->IsAdmin()) {
 		m_Template["IsAdmin"] = "true";
@@ -478,6 +479,7 @@ CWebSock::EPageReqResult CWebSock::PrintStaticFile(const CString& sPath, CString
 
 CWebSock::EPageReqResult CWebSock::PrintTemplate(const CString& sPageName, CString& sPageRet, CModule* pModule) {
 	SetVars();
+
 	m_Template["PageName"] = sPageName;
 
 	if (pModule) {

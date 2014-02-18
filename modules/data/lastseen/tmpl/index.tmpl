@@ -15,8 +15,8 @@
       <td><? VAR Username ?></td>
       <td><? VAR LastSeen DEFAULT="- unknown -" ?></td>
       <? IF WebAdminLoaded TOP ?><td><span class="nowrap">
-      <strong><a href="/mods/global/webadmin/edituser?user=<?VAR Username ESC=URL?>">Edit</a></strong>
-      <? IF !IsSelf ?> / <strong><a href="/mods/global/webadmin/deluser?user=<?VAR Username ESC=URL?>">Delete</a></strong><? ENDIF ?>
+      <strong><a href="<? VAR URIPrefix TOP ?>/mods/global/webadmin/edituser?user=<?VAR Username ESC=URL?>">Edit</a></strong>
+      <? IF !IsSelf ?> / <strong><a href="<? VAR URIPrefix TOP ?>/mods/global/webadmin/deluser?user=<?VAR Username ESC=URL?>">Delete</a></strong><? ENDIF ?>
       </span></td><? ENDIF ?>
     </tr>
     <? ENDLOOP ?>

@@ -2,7 +2,7 @@
 
 <h1>Add/Edit Channel</h1>
 <h2>Channel Info</h2>
-<form action="<? IF Edit ?>editchan<? ELSE ?>addchan<? ENDIF ?>" method="post">
+<form action="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?><? IF Edit ?>editchan<? ELSE ?>addchan<? ENDIF ?>" method="post">
 	<? INC _csrf_check.tmpl ?>
 	<input type="hidden" name="submitted" value="1" />
 	<input type="hidden" name="user" value="<? VAR User ?>" />
