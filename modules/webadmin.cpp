@@ -291,10 +291,13 @@ public:
 
 		// If pUser is not NULL, we are editing an existing user.
 		// Users must not be able to change their own admin flag.
+		// Same goes for subscribers
 		if (pUser != CZNC::Get().FindUser(WebSock.GetUser())) {
 			pNewUser->SetAdmin(WebSock.GetParam("isadmin").ToBool());
+			pNewUser->SetSubscriber(WebSock.GetParam("issubscriber").ToBool());
 		} else if (pUser) {
 			pNewUser->SetAdmin(pUser->IsAdmin());
+			pNewUser->SetSubscriber(pUser->IsSubscriber());
 		}
 
 		if (spSession->IsAdmin() || (pUser && !pUser->DenyLoadMod())) {
