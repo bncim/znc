@@ -277,7 +277,6 @@ public:
 		pNewUser->SetTimezone(WebSock.GetParam("timezone"));
 		pNewUser->SetJoinTries(WebSock.GetParam("jointries").ToUInt());
 		pNewUser->SetMaxJoins(WebSock.GetParam("maxjoins").ToUInt());
-		pNewUser->SetSubscriber(WebSock.GetParam("issubscriber").ToBool());
 
 		if (spSession->IsAdmin()) {
 			pNewUser->SetDenyLoadMod(WebSock.GetParam("denyloadmod").ToBool());
