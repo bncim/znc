@@ -249,6 +249,7 @@ void CClient::UserCommand(CString& sLine) {
 					Table.SetCell("BindHost", pNetwork->GetBindHost());
 				} else {
 					Table.SetCell("OnIRC", "No");
+					Table.SetCell("BindHost", pNetwork->GetBindHost());
 				}
 			}
 		}
