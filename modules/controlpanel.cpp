@@ -76,7 +76,10 @@ class CAdminMod : public CModule {
 			{"PrependTimestamp",    boolean},
 			{"TimestampFormat",     str},
 			{"DCCBindHost",         str},
-			{"StatusPrefix",        str}
+			{"StatusPrefix",        str},
+#ifdef HAVE_ICU
+			{"ClientEncoding",      str},
+#endif
 		};
 		for (unsigned int i = 0; i != ARRAY_SIZE(vars); ++i) {
 			VarTable.AddRow();
@@ -95,8 +98,12 @@ class CAdminMod : public CModule {
 			{"Altnick",             str},
 			{"Ident",               str},
 			{"RealName",            str},
+			{"BindHost",            str},
 			{"FloodRate",           doublenum},
 			{"FloodBurst",          integer},
+#ifdef HAVE_ICU
+			{"Encoding",            str},
+#endif
 		};
 		for (unsigned int i = 0; i != ARRAY_SIZE(nvars); ++i) {
 			NVarTable.AddRow();
@@ -250,6 +257,29 @@ class CAdminMod : public CModule {
 		}
 		else if (sVar == "bindhost") {
 			if(!pUser->DenySetBindHost() || m_pUser->IsAdmin()) {
+				if (sValue.Equals(m_pUser->GetBindHost())) {
+					PutModule("This bind host is already set!");
+					return;
+				}
+
+				const VCString& vsHosts = CZNC::Get().GetBindHosts();
+				if (!m_pUser->IsAdmin() && !vsHosts.empty()) {
+					VCString::const_iterator it;
+					bool bFound = false;
+
+					for (it = vsHosts.begin(); it != vsHosts.end(); ++it) {
+						if (sValue.Equals(*it)) {
+							bFound = true;
+							break;
+						}
+					}
+
+					if (!bFound) {
+						PutModule("You may not use this bind host. See /msg " + m_pUser->GetStatusPrefix() + "status ListBindHosts for a list");
+						return;
+					}
+				}
+
 				pUser->SetBindHost(sValue);
 				PutModule("BindHost = " + sValue);
 			} else {
@@ -431,6 +461,8 @@ class CAdminMod : public CModule {
 			PutModule("Ident = " + pNetwork->GetIdent());
 		} else if (sVar.Equals("realname")) {
 			PutModule("RealName = " + pNetwork->GetRealName());
+		} else if (sVar.Equals("bindhost")) {
+			PutModule("BindHost = " + pNetwork->GetBindHost());
 		} else if (sVar.Equals("floodrate")) {
 			PutModule("FloodRate = " + CString(pNetwork->GetFloodRate()));
 		} else if (sVar.Equals("floodburst")) {
@@ -486,6 +518,36 @@ class CAdminMod : public CModule {
 		} else if (sVar.Equals("realname")) {
 			pNetwork->SetRealName(sValue);
 			PutModule("RealName = " + pNetwork->GetRealName());
+		} else if (sVar.Equals("bindhost")) {
+			if(!pUser->DenySetBindHost() || m_pUser->IsAdmin()) {
+				if (sValue.Equals(pNetwork->GetBindHost())) {
+					PutModule("This bind host is already set!");
+					return;
+				}
+
+				const VCString& vsHosts = CZNC::Get().GetBindHosts();
+				if (!m_pUser->IsAdmin() && !vsHosts.empty()) {
+					VCString::const_iterator it;
+					bool bFound = false;
+
+					for (it = vsHosts.begin(); it != vsHosts.end(); ++it) {
+						if (sValue.Equals(*it)) {
+							bFound = true;
+							break;
+						}
+					}
+
+					if (!bFound) {
+						PutModule("You may not use this bind host. See /msg " + m_pUser->GetStatusPrefix() + "status ListBindHosts for a list");
+						return;
+					}
+				}
+
+				pNetwork->SetBindHost(sValue);
+				PutModule("BindHost = " + sValue);
+			} else {
+				PutModule("Access denied!");
+			}
 		} else if (sVar.Equals("floodrate")) {
 			pNetwork->SetFloodRate(sValue.ToDouble());
 			PutModule("FloodRate = " + CString(pNetwork->GetFloodRate()));
@@ -528,9 +590,10 @@ class CAdminMod : public CModule {
 		}
 		
 		CChan* pChan = new CChan(sChan, pNetwork, true);
-		pNetwork->AddChan(pChan);
-		
-		PutModule("Channel [" + sChan + "] for user [" + sUsername + "] added.");
+		if (pNetwork->AddChan(pChan))
+			PutModule("Channel [" + pChan->GetName() + "] for user [" + sUsername + "] added.");
+		else
+			PutModule("Could not add channel [" + sChan + "] for user [" + sUsername + "], does it already exist?");
 	}
 	
 	void DelChan(const CString& sLine) {

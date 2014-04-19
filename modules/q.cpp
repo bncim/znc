@@ -43,6 +43,12 @@ public:
 		m_bUseCloakedHost = (sTmp = GetNV("UseCloakedHost")).empty() ? true : sTmp.ToBool();
 		m_bUseChallenge   = (sTmp = GetNV("UseChallenge")).empty()  ? true : sTmp.ToBool();
 		m_bRequestPerms   = GetNV("RequestPerms").ToBool();
+		m_bJoinOnInvite   = (sTmp = GetNV("JoinOnInvite")).empty() ? true : sTmp.ToBool();
+
+		// Make sure NVs are stored in config. Note: SetUseCloakedHost() is called further down.
+		SetUseChallenge(m_bUseChallenge);
+		SetRequestPerms(m_bRequestPerms);
+		SetJoinOnInvite(m_bJoinOnInvite);
 
 		OnIRCDisconnected(); // reset module's state
 
@@ -52,7 +58,21 @@ public:
 			if (scUserModes.find('x') != scUserModes.end())
 				m_bCloaked = true;
 
-			OnIRCConnected();
+			// This will only happen once, and only if the user loads the module after connecting to IRC.
+			// Also don't notify the user in case he already had mode +x set.
+			if (GetNV("UseCloakedHost").empty()) {
+				if (!m_bCloaked)
+					PutModule("Notice: Your host will be cloaked the next time you reconnect to IRC. "
+						"If you want to cloak your host now, /msg *q Cloak. You can set your preference "
+						"with /msg *q Set UseCloakedHost true/false.");
+				m_bUseCloakedHost = true;
+				SetUseCloakedHost(m_bUseCloakedHost);
+			} else if (m_bUseChallenge) {
+				Cloak();
+			}
+			WhoAmI();
+		} else {
+			SetUseCloakedHost(m_bUseCloakedHost);
 		}
 
 		return true;
@@ -125,6 +145,10 @@ public:
 			Table2.SetCell("Setting", "RequestPerms");
 			Table2.SetCell("Type", "Boolean");
 			Table2.SetCell("Description", "Whether to request voice/op from Q on join/devoice/deop.");
+			Table2.AddRow();
+			Table2.SetCell("Setting", "JoinOnInvite");
+			Table2.SetCell("Type", "Boolean");
+			Table2.SetCell("Description", "Whether to join channels when Q invites you.");
 			PutModule(Table2);
 
 			PutModule("This module takes 2 optional parameters: <username> <password>");
@@ -144,14 +168,15 @@ public:
 			} else if (sSetting == "usecloakedhost") {
 				SetUseCloakedHost(sValue.ToBool());
 				PutModule("UseCloakedHost set");
-				if (m_bUseCloakedHost && IsIRCConnected())
-					Cloak();
 			} else if (sSetting == "usechallenge") {
 				SetUseChallenge(sValue.ToBool());
 				PutModule("UseChallenge set");
 			} else if (sSetting == "requestperms") {
 				SetRequestPerms(sValue.ToBool());
 				PutModule("RequestPerms set");
+			} else if (sSetting == "joinoninvite") {
+				SetJoinOnInvite(sValue.ToBool());
+				PutModule("JoinOnInvite set");
 			} else
 				PutModule("Unknown setting: " + sSetting);
 
@@ -174,6 +199,9 @@ public:
 			Table.AddRow();
 			Table.SetCell("Setting", "RequestPerms");
 			Table.SetCell("Value", CString(m_bRequestPerms));
+			Table.AddRow();
+			Table.SetCell("Setting", "JoinOnInvite");
+			Table.SetCell("Value", CString(m_bJoinOnInvite));
 			PutModule(Table);
 
 		} else if (sCommand == "status") {
@@ -232,16 +260,80 @@ public:
 			HandleNeed(Channel, "ov");
 	}
 
-	virtual void OnDeop(const CNick& OpNick, const CNick& Nick, CChan& Channel, bool bNoChange) {
-		if (m_bRequestPerms && IsSelf(Nick) && !IsSelf(OpNick))
+	virtual void OnDeop2(const CNick* pOpNick, const CNick& Nick, CChan& Channel, bool bNoChange) {
+		if (m_bRequestPerms && IsSelf(Nick) && (!pOpNick || !IsSelf(*pOpNick)))
 			HandleNeed(Channel, "o");
 	}
 
-	virtual void OnDevoice(const CNick& OpNick, const CNick& Nick, CChan& Channel, bool bNoChange) {
-		if (m_bRequestPerms && IsSelf(Nick) && !IsSelf(OpNick))
+	virtual void OnDevoice2(const CNick* pOpNick, const CNick& Nick, CChan& Channel, bool bNoChange) {
+		if (m_bRequestPerms && IsSelf(Nick) && (!pOpNick || !IsSelf(*pOpNick)))
 			HandleNeed(Channel, "v");
 	}
 
+	virtual EModRet OnInvite(const CNick& Nick, const CString& sChan) {
+		if (!Nick.NickEquals("Q") || !Nick.GetHost().Equals("CServe.quakenet.org"))
+			return CONTINUE;
+		if (m_bJoinOnInvite)
+			PutIRC("JOIN " + sChan);
+		return CONTINUE;
+	}
+
+	virtual CString GetWebMenuTitle() { return "Q"; }
+
+	virtual bool OnWebRequest(CWebSock& WebSock, const CString& sPageName, CTemplate& Tmpl) {
+		if (sPageName == "index") {
+			bool bSubmitted = (WebSock.GetParam("submitted").ToInt() != 0);
+
+			if (bSubmitted) {
+				CString FormUsername = WebSock.GetParam("user");
+				if (!FormUsername.empty())
+					SetUsername(FormUsername);
+
+				CString FormPassword = WebSock.GetParam("password");
+				if (!FormPassword.empty())
+					SetPassword(FormPassword);
+
+				SetUseCloakedHost(WebSock.GetParam("usecloakedhost").ToBool());
+				SetUseChallenge(WebSock.GetParam("usechallenge").ToBool());
+				SetRequestPerms(WebSock.GetParam("requestperms").ToBool());
+				SetJoinOnInvite(WebSock.GetParam("joinoninvite").ToBool());
+			}
+
+			Tmpl["Username"] = m_sUsername;
+
+			CTemplate& o1 = Tmpl.AddRow("OptionLoop");
+			o1["Name"] = "usecloakedhost";
+			o1["DisplayName"] = "UseCloakedHost";
+			o1["Tooltip"] = "Whether to cloak your hostname (+x) automatically on connect.";
+			o1["Checked"] = CString(m_bUseCloakedHost);
+
+			CTemplate& o2 = Tmpl.AddRow("OptionLoop");
+			o2["Name"] = "usechallenge";
+			o2["DisplayName"] = "UseChallenge";
+			o2["Tooltip"] = "Whether to use the CHALLENGEAUTH mechanism to avoid sending passwords in cleartext.";
+			o2["Checked"] = CString(m_bUseChallenge);
+
+			CTemplate& o3 = Tmpl.AddRow("OptionLoop");
+			o3["Name"] = "requestperms";
+			o3["DisplayName"] = "RequestPerms";
+			o3["Tooltip"] = "Whether to request voice/op from Q on join/devoice/deop.";
+			o3["Checked"] = CString(m_bRequestPerms);
+
+			CTemplate& o4 = Tmpl.AddRow("OptionLoop");
+			o4["Name"] = "joinoninvite";
+			o4["DisplayName"] = "JoinOnInvite";
+			o4["Tooltip"] = "Whether to join channels when Q invites you.";
+			o4["Checked"] = CString(m_bJoinOnInvite);
+
+			if (bSubmitted) {
+				WebSock.GetSession()->AddSuccess("Changes have been saved!");
+			}
+
+			return true;
+		}
+
+		return false;
+	}
 
 private:
 	bool m_bCloaked;
@@ -465,6 +557,7 @@ private:
 	bool    m_bUseCloakedHost;
 	bool    m_bUseChallenge;
 	bool    m_bRequestPerms;
+	bool    m_bJoinOnInvite;
 
 	void SetUsername(const CString& sUsername) {
 		m_sUsername = sUsername;
@@ -479,6 +572,9 @@ private:
 	void SetUseCloakedHost(const bool bUseCloakedHost) {
 		m_bUseCloakedHost = bUseCloakedHost;
 		SetNV("UseCloakedHost", CString(bUseCloakedHost));
+
+		if (!m_bCloaked && m_bUseCloakedHost && IsIRCConnected())
+			Cloak();
 	}
 
 	void SetUseChallenge(const bool bUseChallenge) {
@@ -489,6 +585,11 @@ private:
 	void SetRequestPerms(const bool bRequestPerms) {
 		m_bRequestPerms = bRequestPerms;
 		SetNV("RequestPerms", CString(bRequestPerms));
+	}
+
+	void SetJoinOnInvite(const bool bJoinOnInvite) {
+		m_bJoinOnInvite = bJoinOnInvite;
+		SetNV("JoinOnInvite", CString(bJoinOnInvite));
 	}
 };
 
